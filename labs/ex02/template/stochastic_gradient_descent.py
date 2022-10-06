@@ -3,10 +3,12 @@
 
 Stochastic Gradient Descent
 """
-from helpers import batch_iter
-from costs import compute_loss
+from ex02.template.helpers import batch_iter
+from ex02.template.costs import compute_loss
+from ex02.template.gradient_descent import compute_gradient
 
-def compute_stoch_gradient(y, tx, w):
+
+def compute_stoch_gradient(y, tx, w, loss="MSE"):
     """Compute a stochastic gradient at w from just few examples n and their corresponding y_n labels.
 
     Args:
@@ -17,15 +19,10 @@ def compute_stoch_gradient(y, tx, w):
     Returns:
         An array of shape (2, ) (same shape as w), containing the stochastic gradient of the loss at w.
     """
-
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # TODO: implement stochastic gradient computation. It's the same as the usual gradient.
-    # ***************************************************
-    raise NotImplementedError
+    return compute_gradient(y, tx, w, loss=loss)
 
 
-def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
+def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, loss="MSE"):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
@@ -47,13 +44,13 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
     w = initial_w
 
     for n_iter in range(max_iters):
-
-        # ***************************************************
-        # INSERT YOUR CODE HERE
-        # TODO: implement stochastic gradient descent.
-        # ***************************************************
-        raise NotImplementedError
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
+            loss = compute_loss(y, tx, w)
+            grad_w = compute_stoch_gradient(y_batch, tx_batch, w, loss=loss)
+            w -= gamma * grad_w
+            ws.append(w)
+            losses.append(loss)
 
         print("SGD iter. {bi}/{ti}: loss={l}, w0={w0}, w1={w1}".format(
-            bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]))
+            bi=n_iter, ti=max_iters - 1, l=loss, w0=w[-2][0], w1=w[-2][1]))
     return losses, ws
