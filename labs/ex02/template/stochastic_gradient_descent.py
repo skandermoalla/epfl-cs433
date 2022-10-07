@@ -8,7 +8,7 @@ from ex02.template.costs import compute_loss
 from ex02.template.gradient_descent import compute_gradient
 
 
-def compute_stoch_gradient(y, tx, w, loss="MSE"):
+def compute_stoch_gradient(y, tx, w, loss_name="MSE"):
     """Compute a stochastic gradient at w from just few examples n and their corresponding y_n labels.
 
     Args:
@@ -19,10 +19,10 @@ def compute_stoch_gradient(y, tx, w, loss="MSE"):
     Returns:
         An array of shape (2, ) (same shape as w), containing the stochastic gradient of the loss at w.
     """
-    return compute_gradient(y, tx, w, loss=loss)
+    return compute_gradient(y, tx, w, loss_name=loss_name)
 
 
-def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, loss="MSE"):
+def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, loss_name="MSE"):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
@@ -45,8 +45,8 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, 
 
     for n_iter in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
-            loss = compute_loss(y, tx, w)
-            grad_w = compute_stoch_gradient(y_batch, tx_batch, w, loss=loss)
+            loss = compute_loss(y, tx, w, loss_name=loss_name)
+            grad_w = compute_stoch_gradient(y_batch, tx_batch, w, loss_name=loss_name)
             w -= gamma * grad_w
             ws.append(w)
             losses.append(loss)

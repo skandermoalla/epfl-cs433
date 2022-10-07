@@ -4,7 +4,7 @@
 import numpy as np
 
 
-def compute_loss(y, tx, w, loss="MSE"):
+def compute_loss(y, tx, w, loss_name="MSE"):
     """Calculate the loss using the MSE
 
     Args:
@@ -17,9 +17,9 @@ def compute_loss(y, tx, w, loss="MSE"):
     """
     # needs to be redefined depending on the need.
     # This is because of the poor design of the tutorials.
-    if loss == "MSE":
+    if loss_name == "MSE":
         return compute_mse(y, tx, w)
-    elif loss == "MAE":
+    elif loss_name == "MAE":
         return compute_mae(y, tx, w)
     else:
         raise NotImplementedError

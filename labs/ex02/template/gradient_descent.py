@@ -7,7 +7,7 @@ Gradient Descent
 from ex02.template.costs import compute_loss
 
 
-def compute_gradient(y, tx, w, loss="MSE"):
+def compute_gradient(y, tx, w, loss_name="MSE"):
     """Computes the gradient at w.
 
     Args:
@@ -18,9 +18,9 @@ def compute_gradient(y, tx, w, loss="MSE"):
     Returns:
         An array of shape (2, ) (same shape as w), containing the gradient of the loss at w.
     """
-    if loss == "MSE":
+    if loss_name == "MSE":
         return compute_gradient_mse(y, tx, w)
-    elif loss == "MAE":
+    elif loss_name == "MAE":
         return compute_gradient_mae(y, tx, w)
     else:
         raise NotImplementedError
@@ -56,7 +56,7 @@ def compute_gradient_mae(y, tx, w):
     return - tx.T.dot(e) / y.shape[0]
 
 
-def gradient_descent(y, tx, initial_w, max_iters, gamma, loss="MSE"):
+def gradient_descent(y, tx, initial_w, max_iters, gamma, loss_name="MSE"):
     """The Gradient Descent (GD) algorithm.
 
     Args:
@@ -77,8 +77,8 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma, loss="MSE"):
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
-        loss = compute_loss(y, tx, w)
-        grad_w = compute_gradient(y, tx, w, loss=loss)
+        loss = compute_loss(y, tx, w, loss_name=loss_name)
+        grad_w = compute_gradient(y, tx, w, loss_name=loss_name)
         w -= gamma * grad_w
         ws.append(w)
         losses.append(loss)
