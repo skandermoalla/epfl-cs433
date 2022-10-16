@@ -6,6 +6,7 @@ Least Square
 
 import numpy as np
 
+from ex04.template.costs import compute_mse
 
 
 def least_squares(y, tx):
@@ -28,4 +29,12 @@ def least_squares(y, tx):
     # least squares: TODO
     # returns optimal weights, MSE
     # ***************************************************
-    raise NotImplementedError
+    A = tx.T @ tx
+    b = tx.T @ y
+    try:
+        w = np.linalg.solve(A, b)
+    except np.LinAlgError:
+        print("using lstsq")
+        w = np.linalg.lstsq(A, b, rcond=None)[0]
+    mse = compute_mse(y, tx, w)
+    return w, mse

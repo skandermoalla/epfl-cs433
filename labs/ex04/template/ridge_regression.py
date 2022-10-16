@@ -27,5 +27,12 @@ def ridge_regression(y, tx, lambda_):
     # COPY YOUR CODE FROM EX03 HERE
     # ridge regression: TODO
     # ***************************************************
-    raise NotImplementedError
+    A = tx.T @ tx + lambda_ * 2 * tx.shape[0] * np.diag(np.ones(tx.shape[1]))
+    b = tx.T @ y
+    try:
+        w = np.linalg.solve(A, b)
+    except np.LinAlgError:
+        print("using lstsq")
+        w = np.linalg.lstsq(A, b, rcond=None)[0]
+    return w
 
